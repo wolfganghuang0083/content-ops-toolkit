@@ -1,0 +1,132 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>內容運營工具鏈 · 手把手 Fork + 使用</title>
+<style>
+:root{--bg:#0d1117;--card:#161b22;--bd:#30363d;--blue:#10a0ff;--gold:#d4af37;--green:#3fb950;--gh:#6e40c9}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Microsoft JhengHei',sans-serif;background:var(--bg);color:#e6edf3;line-height:1.75;padding:24px;max-width:900px;margin:0 auto}
+h1{font-size:23px;margin-bottom:4px}h2{font-size:18px;margin-top:6px;border-left:4px solid var(--blue);padding-left:10px}
+.sub{color:#9fb3d1;font-size:13.5px;margin-bottom:16px}
+.chain{display:flex;gap:6px;flex-wrap:wrap;align-items:center;background:#0d1f3a;border:1px solid #1a3a66;border-radius:12px;padding:14px;margin:14px 0;font-size:13px}
+.chain .node{background:#13294d;border:1px solid #234a80;border-radius:8px;padding:7px 11px;font-weight:700;color:#bcd4f5}
+.chain .arr{color:#7d8590;font-weight:700}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px 20px;margin:13px 0}
+.step{font-size:13px;font-weight:700;color:#0a1f44;background:var(--gold);border-radius:20px;padding:2px 12px;display:inline-block;margin-bottom:6px}
+code{background:#22272e;padding:2px 7px;border-radius:5px;color:#79c0ff;font-size:12.5px;word-break:break-all}
+.cmd{position:relative;background:#0b0f14;border:1px solid var(--bd);border-radius:9px;padding:12px 14px;margin:8px 0;font-family:ui-monospace,Menlo,monospace;font-size:12.5px;color:#adbac7;white-space:pre-wrap;word-break:break-word}
+.cmd button{position:absolute;top:8px;right:8px;background:#30363d;color:#e6edf3;border:0;border-radius:6px;padding:4px 10px;font-size:11.5px;font-weight:600;cursor:pointer}
+a.btn{display:inline-block;text-decoration:none;font-weight:700;border-radius:9px;padding:9px 16px;margin:5px 6px 5px 0;font-size:13.5px}
+a.gh{background:var(--gh);color:#fff}a.repo{background:#21262d;color:#e6edf3;border:1px solid var(--bd)}
+b.hi{color:var(--gold)}.muted{color:#7d8590;font-size:12.5px}
+.uname{width:100%;padding:11px;border:1.5px solid var(--bd);border-radius:9px;background:var(--bg);color:#e6edf3;font-size:15px;font-family:ui-monospace,monospace;margin:6px 0}
+.tip{background:#0d2818;border-left:4px solid #1f6f43;border-radius:8px;padding:10px 14px;font-size:13px;color:#bfe9cf;margin:8px 0}
+.warn{background:#2b1d0e;border-left:4px solid var(--gold);border-radius:8px;padding:10px 14px;font-size:13px;color:#e8d9b5;margin:8px 0}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}td{border:1px solid var(--bd);padding:7px 10px}td:first-child{color:#9fb3d1;white-space:nowrap;font-weight:600}
+.ok{color:var(--green)}
+</style></head><body>
+
+<h1>🧰 內容運營工具鏈 — 手把手 Fork + 使用</h1>
+<div class="sub">四個 Claude Code skill 串成一條 SEO 內容生產線：規劃 → 撰稿 → 排程 → 內鏈。本頁帶你把它們 fork 成自己的、裝好、設定、跑起來。</div>
+
+<div class="chain">
+<span class="node">🗺️ content-map-builder<br><span class="muted">寫什麼</span></span><span class="arr">→</span>
+<span class="node">✍️ content-pipeline<br><span class="muted">寫成文章上站</span></span><span class="arr">→</span>
+<span class="node">📅 content-schedule<br><span class="muted">何時上線</span></span><span class="arr">→</span>
+<span class="node">🔗 internal-linking<br><span class="muted">織成主題網</span></span>
+</div>
+
+<div class="card">
+<h2>① 先準備這些</h2>
+<table>
+<tr><td>Claude Code</td><td>已安裝（skill 放在 <code>~/.claude/skills/</code> 會自動載入）</td></tr>
+<tr><td>git + GitHub 帳號</td><td>用來 fork、clone</td></tr>
+<tr><td>Python 3</td><td>排程/回填要 <code>pip3 install google-api-python-client google-auth</code></td></tr>
+<tr><td>一個 WordPress 網站</td><td>要發文/排程/內鏈的站；需一組「應用程式密碼」（下面教）</td></tr>
+<tr><td>Google 帳號（選配）</td><td>只有 content-schedule 用 Google Sheet 當行事曆時才需要；內容地圖也可純用 Markdown</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h2>② Fork 這四個 repo（變成你自己的）</h2>
+<div class="muted">點按鈕 → 在 GitHub 頁面按右上「Create fork」即可。四個都 fork。</div>
+<div style="margin-top:8px">
+<a class="btn gh" href="https://github.com/wolfganghuang0083/content-map-builder/fork" target="_blank">⑂ Fork content-map-builder</a>
+<a class="btn gh" href="https://github.com/wolfganghuang0083/content-pipeline/fork" target="_blank">⑂ Fork content-pipeline</a>
+<a class="btn gh" href="https://github.com/wolfganghuang0083/content-schedule/fork" target="_blank">⑂ Fork content-schedule</a>
+<a class="btn gh" href="https://github.com/wolfganghuang0083/internal-linking/fork" target="_blank">⑂ Fork internal-linking</a>
+</div>
+<div class="muted" style="margin-top:6px">想直接用、之後再客製，也可以跳過 fork 直接 clone 我的（把下面帳號欄填 <code>wolfganghuang0083</code> 即可）。</div>
+</div>
+
+<div class="card">
+<h2>③ Clone 到 Claude Code 的 skills 資料夾</h2>
+<div>填你的 GitHub 帳號，下面指令會自動帶入：</div>
+<input class="uname" id="uname" value="你的GitHub帳號" oninput="upd()">
+<div class="cmd" id="cmd-clone"><button onclick="cp('cmd-clone',this)">複製</button></div>
+<div class="muted">跑完四個 skill 就裝好了。回到 Claude Code 說「幫我為某網站建內容地圖」就會觸發。</div>
+</div>
+
+<div class="card">
+<h2>④ 設定（credentials & 品牌事實）</h2>
+
+<div class="step">4-1 WordPress 應用程式密碼</div>
+<div>WP 後台 → <b class="hi">使用者 → 個人資料</b> → 捲到最底 <b class="hi">應用程式密碼</b> → 名稱填 <code>claude-content</code> → 新增 → 複製那組 24 碼。用環境變數帶入（<b class="hi">不要寫進檔案</b>）：</div>
+<div class="cmd" id="cmd-wp"><button onclick="cp('cmd-wp',this)">複製</button>export WP_USER='你的WP帳號'
+export WP_APP_PW='xxxx xxxx xxxx xxxx xxxx xxxx'</div>
+
+<div class="step">4-2 品牌事實 FACTS.md（防編造的命脈）</div>
+<div>把模板複製成 <code>FACTS.md</code> 並填上你的品牌、可具名案例、允許的數字、防編造鐵則。撰稿與查核都只信這份。</div>
+<div class="cmd" id="cmd-facts"><button onclick="cp('cmd-facts',this)">複製</button>cp ~/.claude/skills/content-pipeline/templates/FACTS.template.md ~/.claude/skills/content-pipeline/FACTS.md
+# 然後用編輯器打開填空（每個 &lt;PLACEHOLDER&gt; 都換成你的真實資料）</div>
+<div class="tip">🔒 你填好的 <code>FACTS.md</code> 已被 <code>.gitignore</code> 擋住，不會被推回 GitHub，品牌機密不外洩。</div>
+
+<div class="step">4-3 Google Sheet 行事曆（選配，content-schedule 用）</div>
+<div>若要用 Google Sheet 當內容地圖/行事曆：建一張表（用 content-map-builder 的欄序），啟用 Google Sheets API、產生 OAuth token（spreadsheets 範圍）放 <code>~/.config/google/token.json</code>。<b>不想搞這個就先用 Markdown 版內容地圖</b>，一樣能跑前三步。</div>
+</div>
+
+<div class="card">
+<h2>⑤ 跑起來（完整流程）</h2>
+
+<div class="step">🗺️ Step 1 · 規劃地圖</div>
+<div>在 Claude Code 直接說：<i>「幫我為 &lt;你的網站&gt; 建內容地圖」</i>。要用真實數據排序，先把 GSC（Search Console → 成效 → 匯出）CSV 丟給它：</div>
+<div class="cmd" id="cmd-prio"><button onclick="cp('cmd-prio',this)">複製</button>python3 ~/.claude/skills/content-map-builder/scripts/prioritize.py gsc-export.csv --relevant "你的,賺錢,關鍵字" --top 30</div>
+
+<div class="step">✍️ Step 2 · 寫一篇並上站</div>
+<div>說：<i>「依內容地圖，幫我寫『&lt;某主題&gt;』並建草稿」</i>。產線會 SERP 分析 → 撰稿 + FAQ → <b class="hi">獨立對抗式事實查核</b>（沒過不發）→ 配圖 → 建 WP 草稿。預設給你後台預覽、你按發佈。</div>
+
+<div class="step">📅 Step 3 · 排程上線</div>
+<div>說：<i>「把待排的文章依重要性排程」</i>。或直接：</div>
+<div class="cmd" id="cmd-sched"><button onclick="cp('cmd-sched',this)">複製</button>python3 ~/.claude/skills/content-schedule/scripts/schedule.py --plan --sheet-id &lt;你的地圖SheetID&gt; --start 2026-07-01 --per-day 1</div>
+<div class="muted">看順眼後把 <code>--plan</code> 換成 <code>--apply</code>（要 WP 憑證）就會設成 WP 排程並回寫地圖。</div>
+
+<div class="step">🔗 Step 4 · 叢集內鏈</div>
+<div>整個叢集上線後說：<i>「幫這個叢集跑一輪內鏈」</i>。只連已上線頁、冪等可重跑、錨點貼題不編造。</div>
+</div>
+
+<div class="card">
+<h2>⑥ 完成檢查</h2>
+<div><span class="ok">✓</span> 四個資料夾都在 <code>~/.claude/skills/</code>　<span class="ok">✓</span> <code>FACTS.md</code> 已填　<span class="ok">✓</span> <code>WP_USER/WP_APP_PW</code> 已 export　<span class="ok">✓</span> 在 Claude Code 輸入 <code>/</code> 看得到這四個 skill</div>
+<div class="warn">⚠️ 用完記得回 WP 個人資料頁，把不再用的應用程式密碼撤銷。</div>
+</div>
+
+<div class="muted" style="text-align:center;margin-top:18px">內容運營工具鏈 · MIT 授權 · 可自由 fork 改用於你的客戶</div>
+
+<script>
+const REPOS=['content-map-builder','content-pipeline','content-schedule','internal-linking'];
+function upd(){
+  let u=document.getElementById('uname').value.trim()||'你的GitHub帳號';
+  let lines='for s in '+REPOS.join(' ')+'; do\n  git clone https://github.com/'+u+'/$s.git ~/.claude/skills/$s\ndone';
+  setCmd('cmd-clone',lines);
+}
+function setCmd(id,text){
+  const el=document.getElementById(id);
+  const btn=el.querySelector('button');
+  el.textContent=text; el.appendChild(btn);
+}
+function cp(id,btn){
+  const el=document.getElementById(id).cloneNode(true);
+  const b=el.querySelector('button'); if(b) b.remove();
+  navigator.clipboard.writeText(el.textContent.trim()).then(()=>{const o=btn.textContent;btn.textContent='✅ 已複製';setTimeout(()=>btn.textContent=o,1400);});
+}
+upd();
+</script>
+</body></html>
