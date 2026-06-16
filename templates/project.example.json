@@ -1,0 +1,10 @@
+{
+  "project": "my-client",
+  "site_url": "https://example.com",
+  "cms_base": "https://example.com/wp-json",
+  "market": "台灣繁體中文",
+  "content_map_sheet_id": "",
+  "automation": "auto-publish",
+  "facts_path": "~/.claude/skills/content-pipeline/FACTS.md",
+  "brief": "毛日子，做狗狗訂閱制鮮食。台灣製、人食等級無添加、依體重年齡客製份量、每月宅配、可隨時暫停換口味。客群是重視毛孩健康的飼主。特色：人食等級食材／客製份量／訂閱免囤貨／獸醫營養師審訂／可暫停換口味。希望訪客訂閱。"
+}

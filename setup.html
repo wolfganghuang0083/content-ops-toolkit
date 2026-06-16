@@ -1,0 +1,108 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>內容運營工具鏈 · 註冊精靈</title>
+<style>
+:root{--bg:#0d1117;--card:#161b22;--bd:#30363d;--blue:#10a0ff;--gold:#d4af37;--green:#3fb950}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Microsoft JhengHei',sans-serif;background:var(--bg);color:#e6edf3;line-height:1.7;padding:24px;max-width:880px;margin:0 auto}
+h1{font-size:22px}h2{font-size:17px;border-left:4px solid var(--blue);padding-left:10px;margin-top:22px}
+.sub{color:#9fb3d1;font-size:13.5px;margin-bottom:14px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px 20px;margin:12px 0}
+label{display:block;font-size:13.5px;font-weight:700;margin:12px 0 4px}label small{font-weight:400;color:#7d8590}
+input,select,textarea{width:100%;padding:11px;border:1.5px solid var(--bd);border-radius:9px;background:var(--bg);color:#e6edf3;font-size:14px;font-family:inherit}
+textarea{min-height:90px;resize:vertical}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row>div{flex:1;min-width:220px}
+.out{position:relative;background:#0b0f14;border:1px solid var(--bd);border-radius:9px;padding:13px 14px;margin:8px 0;font-family:ui-monospace,Menlo,monospace;font-size:12.5px;color:#adbac7;white-space:pre-wrap;word-break:break-word}
+.out button{position:absolute;top:8px;right:8px;background:#30363d;color:#e6edf3;border:0;border-radius:6px;padding:4px 11px;font-size:11.5px;font-weight:600;cursor:pointer}
+code{background:#22272e;padding:2px 6px;border-radius:5px;color:#79c0ff;font-size:12.5px}
+b.hi{color:var(--gold)}.muted{color:#7d8590;font-size:12.5px}
+.sec{background:#0d2818;border-left:4px solid #1f6f43;border-radius:8px;padding:11px 14px;font-size:13px;color:#bfe9cf;margin:10px 0}
+.warn{background:#2b1d0e;border-left:4px solid var(--gold);border-radius:8px;padding:10px 14px;font-size:13px;color:#e8d9b5;margin:10px 0}
+a{color:#79c0ff}
+</style></head><body>
+
+<h1>🧙 內容運營工具鏈 · 註冊精靈</h1>
+<div class="sub">填一次設定 → 自動產出 <code>project.json</code>（非機密）＋ <code>.env</code> 範本（機密本機填）。<b class="hi">全部在你瀏覽器本機跑，什麼都不會上傳。</b>之後說「用 content-ops 幫 &lt;客戶&gt; 跑一輪」即可一條龍。</div>
+<div class="sub">← 回 <a href="./">手把手教學頁</a></div>
+
+<div class="card">
+<h2>① 專案設定（非機密）</h2>
+<div class="row">
+<div><label>專案／客戶代號 <small>(英數，當檔名)</small></label><input id="project" value="my-client" oninput="gen()"></div>
+<div><label>市場／語系</label><input id="market" value="台灣繁體中文" oninput="gen()"></div>
+</div>
+<div class="row">
+<div><label>網站網址 <small>(含 https://)</small></label><input id="site" value="https://example.com" oninput="gen()"></div>
+<div><label>CMS REST base <small>(WordPress 預設自動帶)</small></label><input id="base" placeholder="https://example.com/wp-json" oninput="gen(true)"></div>
+</div>
+<div class="row">
+<div><label>內容地圖 Google Sheet ID <small>(選填，留空＝用 Markdown 地圖)</small></label><input id="sheet" placeholder="1AbC...（選填）" oninput="gen()"></div>
+<div><label>發佈自動化程度</label><select id="auto" onchange="gen()">
+<option value="auto-publish">auto-publish（三條件達標就自動發佈）</option>
+<option value="review">review（一律建草稿，你按發佈）</option>
+</select></div>
+</div>
+<label>FACTS.md 路徑 <small>(防編造事實源)</small></label><input id="facts" value="~/.claude/skills/content-pipeline/FACTS.md" oninput="gen()">
+<label>品牌 brief <small>(誰、賣什麼、特色、轉換目標——content-strategy-starter 的輸入)</small></label>
+<textarea id="brief" oninput="gen()">毛日子，做狗狗訂閱制鮮食。台灣製、人食等級無添加、依體重年齡客製份量、每月宅配、可隨時暫停換口味。客群是重視毛孩健康的飼主。特色：人食等級食材／客製份量／訂閱免囤貨／獸醫營養師審訂／可暫停換口味。希望訪客訂閱。</textarea>
+</div>
+
+<div class="card">
+<h2>② 機密（只給範本，本機填，不外送）</h2>
+<div class="row">
+<div><label>WordPress 帳號 <small>(WP_USER)</small></label><input id="wpuser" value="your-wp-user" oninput="gen()"></div>
+</div>
+<div class="warn">🔒 <b class="hi">應用程式密碼不要填在這個網頁</b>。下面 <code>.env</code> 範本會留欄位，請你<b>本機</b>填。WP 後台 → 使用者 → 個人資料 → 應用程式密碼 → 新增 → 複製 24 碼。</div>
+</div>
+
+<div class="card">
+<h2>③ 產出：存這兩個檔</h2>
+<div><b class="hi">A. 專案設定</b> → 存成 <code>~/.config/content-ops/&lt;專案&gt;.json</code></div>
+<div class="out" id="o-json"><button onclick="cp('o-json',this)">複製</button></div>
+<div class="out" id="o-jsoncmd"><button onclick="cp('o-jsoncmd',this)">複製存檔指令</button></div>
+
+<div style="margin-top:14px"><b class="hi">B. 機密範本</b> → 存成 <code>~/.config/content-ops/&lt;專案&gt;.env</code>，填密碼後 <code>source</code> 它</div>
+<div class="out" id="o-env"><button onclick="cp('o-env',this)">複製</button></div>
+<div class="sec">用法：填好密碼後，每次開工先 <code>source ~/.config/content-ops/&lt;專案&gt;.env</code> 載入機密（機密只在這個本機檔，不進 project.json、不進 git）。</div>
+</div>
+
+<div class="card">
+<h2>④ 一次安裝 6 個 skill（含指揮中心）</h2>
+<div>填你的 GitHub 帳號（fork 後填自己的；想直接用填 <code>wolfganghuang0083</code>）：</div>
+<input id="gh" value="你的GitHub帳號" oninput="gen()" style="margin-top:6px">
+<div class="out" id="o-clone"><button onclick="cp('o-clone',this)">複製</button></div>
+</div>
+
+<div class="card">
+<h2>⑤ 開動</h2>
+<div>在 Claude Code 說：</div>
+<div class="out" id="o-run"><button onclick="cp('o-run',this)">複製</button></div>
+<div class="muted">它會讀 <code>&lt;專案&gt;.json</code> 一條龍跑：策略→地圖→撰稿→（三條件達標自動發佈／否則退草稿）→排程→內鏈，最後回報這輪發了幾篇。</div>
+</div>
+
+<div class="muted" style="text-align:center;margin:18px 0">內容運營工具鏈 · 註冊精靈 · 全程本機、機密不外送 · MIT</div>
+
+<script>
+const SKILLS=['content-strategy-starter','content-map-builder','content-pipeline','content-schedule','internal-linking','content-ops-toolkit'];
+function v(id){return document.getElementById(id).value.trim();}
+function gen(baseTyped){
+  const site=v('site').replace(/\/+$/,'');
+  if(!baseTyped){document.getElementById('base').value=site?site+'/wp-json':'';}
+  const base=v('base');
+  const cfg={
+    project:v('project'), site_url:site, cms_base:base, market:v('market'),
+    content_map_sheet_id:v('sheet'), automation:v('auto'),
+    facts_path:v('facts'), brief:v('brief')
+  };
+  const proj=v('project')||'my-client';
+  set('o-json', JSON.stringify(cfg,null,2));
+  set('o-jsoncmd', 'mkdir -p ~/.config/content-ops\ncat > ~/.config/content-ops/'+proj+'.json <<'+"'JSON'"+'\n'+JSON.stringify(cfg,null,2)+'\nJSON');
+  set('o-env', '# ~/.config/content-ops/'+proj+'.env  （填好密碼後 source 它；勿進 git）\nexport WP_USER="'+(v('wpuser')||'your-wp-user')+'"\nexport WP_APP_PW="貼上你的應用程式密碼(24碼)"\nexport GOOGLE_TOKEN="$HOME/.config/google/token.json"   # 用 Google Sheet 才需要');
+  const u=v('gh')||'你的GitHub帳號';
+  set('o-clone','for s in '+SKILLS.join(' ')+'; do\n  git clone https://github.com/'+u+'/$s.git ~/.claude/skills/$s\ndone');
+  set('o-run','source ~/.config/content-ops/'+proj+'.env\n# 然後在 Claude Code：\n用 content-ops 幫 '+proj+' 跑一輪內容自動化');
+}
+function set(id,text){const el=document.getElementById(id);const b=el.querySelector('button');el.textContent=text;el.appendChild(b);}
+function cp(id,btn){const el=document.getElementById(id).cloneNode(true);const b=el.querySelector('button');if(b)b.remove();navigator.clipboard.writeText(el.textContent.trim()).then(()=>{const o=btn.textContent;btn.textContent='✅ 已複製';setTimeout(()=>btn.textContent=o,1400);});}
+gen();
+</script>
+</body></html>
