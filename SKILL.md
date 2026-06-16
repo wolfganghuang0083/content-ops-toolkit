@@ -27,7 +27,9 @@ description: 內容運營「總指揮中心」——把 content-strategy-starter
    - `review`：一律建**草稿**，回報你後台預覽、你按發佈。
    - `auto-publish`：**三條件全過才自動 `--status publish`**：(a) 對抗式查核結論＝「可直接發佈」且無紅線；(b) 內部連結全 HTTP 200；(c) publish 驗證 `stray_md=0 & faq_block=True`。**任一不過 → 退草稿並回報**（絕不硬發）。
 5. **📅 排程**：未即時發的，用 `content-schedule`（`--sheet-id`，依重要性評分排進空槽、回寫地圖）。
-6. **🔗 內鏈**：該叢集都上線後，用 `internal-linking`（只連已上線頁、冪等）把叢集織成主題網。
+6. **🔗 內鏈（排程即設，不拖到事後）**：用 `internal-linking`，分兩時點避免 404——
+   - **排程當下**：對剛排程的每篇做「單篇 outbound」（`matrix --outbound-src <本篇> --ids <同叢集已上線姊妹>` → `interlink.js` → `apply`），連到已上線相關文。
+   - **該篇上線當下**：做「單篇 full mesh」（`matrix --ids <本篇,已上線姊妹> --mesh`）補 inbound。冪等可重跑。
 7. **回寫 + 回報**：更新地圖狀態/post id；回報這輪做了幾篇、發了幾篇、退草稿幾篇與原因。
 
 ## 自動跑前段（strategy→草稿批次）
