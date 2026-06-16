@@ -135,17 +135,42 @@ python3 ~/.claude/skills/content-ops-toolkit/scripts/authorize_sheets.py</div>
 <div class="muted">這個檔只存你電腦、不會上傳 GitHub（已設好忽略），品牌機密不外洩。</div>
 </div>
 
-<div data-id="done" data-title="🎉 完成！存這些就能開動">
-<div class="plain"><b class="hi">A. 一般設定</b> → 複製存檔指令，貼到終端機執行（會存成 <code>~/.config/content-ops/&lt;專案&gt;.json</code>）：</div>
-<div class="out" id="o-jsoncmd"><button onclick="cp('o-jsoncmd',this)">複製存檔指令</button></div>
-<div class="plain" style="margin-top:12px"><b class="hi">B. 密碼檔</b> → 複製、貼到終端機執行後，<b class="hi">用編輯器把第二行的密碼換成你剛剛複製的 24 碼</b>：</div>
-<div class="out" id="o-envcmd"><button onclick="cp('o-envcmd',this)">複製存檔指令</button></div>
+<div data-id="install" data-title="🧩 安裝：存設定 + 裝工具（一次性）">
+<div class="plain"><b class="hi">A. 一般設定</b> → 複製、貼到終端機執行（存成 <code>~/.config/content-ops/&lt;專案&gt;.json</code>）：</div>
+<div class="out" id="o-jsoncmd"><button onclick="cp('o-jsoncmd',this)">複製</button></div>
+<div class="plain" style="margin-top:12px"><b class="hi">B. 密碼檔</b> → 複製貼上執行後，<b class="hi">用編輯器把第二行換成你剛複製的 24 碼密碼</b>：</div>
+<div class="out" id="o-envcmd"><button onclick="cp('o-envcmd',this)">複製</button></div>
 <div class="plain" style="margin-top:12px"><b class="hi">C. 安裝 6 個工具</b>（填你的 GitHub 帳號；想直接用填 <code>wolfganghuang0083</code>）：</div>
 <input id="gh" value="你的GitHub帳號" oninput="gen()">
 <div class="out" id="o-clone"><button onclick="cp('o-clone',this)">複製</button></div>
-<div class="plain" style="margin-top:12px"><b class="hi">D. 開動</b>（先載入密碼，再跟 Claude 說這句）：</div>
+<div class="muted">＋第一次記得把 FACTS 模板複製成 FACTS.md 填好（前一步那個指令）。裝好按「下一步」看怎麼開始營運。</div>
+</div>
+
+<div data-id="firstrun" data-title="▶️ 開始營運 1：第一次開動">
+<div class="why">這一步你會親眼看到「從一句生意描述 → 一批文章 + 排好上架時間」。</div>
+<div class="plain">在終端機先載入密碼，再到 Claude Code 貼這句：</div>
 <div class="out" id="o-run"><button onclick="cp('o-run',this)">複製</button></div>
-<div class="sec">完成 🎉 之後每次要跑新一批內容，只要 <code>source</code> 那個 .env，再跟 Claude 說「用 content-ops 幫 &lt;專案&gt; 跑一輪」就好。</div>
+<div class="plain" style="margin-top:8px"><b class="hi">它會自動做：</b></div>
+<div class="plain">🧬 想出 5 種客人 × 25 個題目 → 🗺️ 排成內容地圖（先做最划算的）→ ✍️ 一篇篇寫稿（含防亂編的事實查核 + 自動配圖）→ 🚦 <b class="hi">達標就自動發佈、沒達標自動退草稿</b> → 📅 其餘排進未來時段 → 🔗 文章間自動內鏈。</div>
+<div class="sec">關於「自動上架」：排程是用 WordPress 的「預約發佈」，<b>時間到它自己上線</b>，你不用守著。第一次建議設 <b class="hi">先看過再發</b>（精靈第⑥步），確認語氣與事實 OK，再切自動發佈。</div>
+</div>
+
+<div data-id="automate" data-title="🤖 開始營運 2：變成「自動系統」（重點）">
+<div class="why">真正的「自動化內容行銷系統」＝不用你每週記得跑。設一個<b class="hi">定時自動跑</b>的排程，它會固定幫你補新文 + 排上架，行事曆永遠不空。</div>
+<div class="plain">💡 其實<b class="hi">光是第一次跑，就已經幫你把接下來好幾週的文章排好、到點自動上架</b>了；這一步是連「定期補新的一批」都自動化，真正一勞永逸。</div>
+<div class="plain">在 Claude Code 貼這句（時間/篇數可改）：</div>
+<div class="out" id="o-cron"><button onclick="cp('o-cron',this)">複製</button></div>
+<div class="plain" style="margin-top:8px"><b class="hi">設好之後，這個系統就會自己：</b></div>
+<div class="plain">• 每週自動寫幾篇新文、排進未來時段<br>• WordPress 到點自動把文章上線<br>• 新文自動接進內鏈網<br>• 把狀態寫回內容地圖（哪些寫了、哪天上）</div>
+<div class="muted">想暫停／改頻率：跟 Claude 說「列出我的排程」「把 X 的內容排程改成兩週一次／暫停」。<br>⚠️ 定時排程要能讀到你的 WP 密碼才能自動發 —— 在<b>同一台會開著的電腦</b>跑最簡單；或把機密設進排程環境。不想處理也沒關係：<b>第一次跑就已排好幾週，之後手動每月再跑一次 content-ops 補一批</b> 也等於半自動。</div>
+</div>
+
+<div data-id="operate" data-title="🧭 開始營運 3：你平常做什麼 + 成果長相">
+<div class="plain"><b class="hi">你平常只需要：</b></div>
+<div class="plain">• <b>看行事曆</b>：跟 Claude 說「看 X 的內容排程現況」→ 它列出已排/已上/待寫。<br>• <b>核可</b>（若選「先看過再發」）：它會給你後台預覽連結，你按發佈。<br>• <b>給方向</b>：想主打某主題就說「這個月多寫 OOO 相關的」。<br>• <b>信任後</b>切「達標自動發佈」，就幾乎全自動。</div>
+<div class="plain" style="margin-top:8px"><b class="hi">成果長相：</b>文章按行事曆一篇篇自己上線、彼此內鏈、SEO 設定齊全、防亂編把關 —— 一台會自己持續產出的內容行銷機器。</div>
+<div class="warn">🔒 維運小提醒：① 用完不再給程式用，到 WP 把那組應用程式密碼<b>作廢</b> ② 內容涉及真實數字/客戶名，務必在 <code>FACTS.md</code> 填好（這是防亂編的命脈）③ 文章列表沒即時更新就到 WP 後台清一次快取。</div>
+<div class="sec">🎉 到這裡，你就有一套「給基本資訊 → 自動產內容 → 自動排程上架」的內容行銷系統了。回 <a href="./" style="color:#79c0ff">教學頁</a> 可重看全流程。</div>
 </div>
 
 </div>
@@ -153,7 +178,7 @@ python3 ~/.claude/skills/content-ops-toolkit/scripts/authorize_sheets.py</div>
 <script>
 const BASE=['welcome','project','site','wpuser','wppw','market','auto','brief','store'];
 const GOOGLE=['g1','g2','g3','g4','g5'];
-const TAIL=['facts','done'];
+const TAIL=['facts','install','firstrun','automate','operate'];
 let cur=0;
 function order(){ return BASE.concat(v('store')==='sheet'?GOOGLE:[], TAIL); }
 function v(id){const e=document.getElementById(id);return e?e.value.trim():'';}
@@ -200,6 +225,7 @@ function gen(autoBase){
   const skills=['content-strategy-starter','content-map-builder','content-pipeline','content-schedule','internal-linking','content-ops-toolkit'];
   setIf('o-clone','for s in '+skills.join(' ')+'; do\n  git clone https://github.com/'+u+'/$s.git ~/.claude/skills/$s\ndone');
   setIf('o-run','source ~/.config/content-ops/'+proj+'.env\n# 然後在 Claude Code 輸入：\n用 content-ops 幫 '+proj+' 跑一輪內容自動化');
+  setIf('o-cron','幫我建立一個每週一早上 9 點自動跑的排程：用 content-ops 幫 '+proj+' 跑下一批內容（寫 3 篇 → 排程上架 → 內鏈），跑完把這輪做了什麼回報我。');
 }
 function setIf(id,text){const el=document.getElementById(id);if(!el)return;const b=el.querySelector('button');el.textContent=text;if(b)el.appendChild(b);}
 function cp(id,btn){const el=document.getElementById(id).cloneNode(true);const b=el.querySelector('button');if(b)b.remove();navigator.clipboard.writeText(el.textContent.trim()).then(()=>{const o=btn.textContent;btn.textContent='✅ 已複製';setTimeout(()=>btn.textContent=o,1400);});}
