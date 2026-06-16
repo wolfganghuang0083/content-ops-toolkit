@@ -113,8 +113,9 @@ export WP_APP_PW='xxxx xxxx xxxx xxxx xxxx xxxx'</div>
 <div class="cmd" id="cmd-sched"><button onclick="cp('cmd-sched',this)">複製</button>python3 ~/.claude/skills/content-schedule/scripts/schedule.py --plan --sheet-id &lt;你的地圖SheetID&gt; --start 2026-07-01 --per-day 1</div>
 <div class="muted">看順眼後把 <code>--plan</code> 換成 <code>--apply</code>（要 WP 憑證）就會設成 WP 排程並回寫地圖。</div>
 
-<div class="step">🔗 Step 4 · 叢集內鏈</div>
-<div>整個叢集上線後說：<i>「幫這個叢集跑一輪內鏈」</i>。只連已上線頁、冪等可重跑、錨點貼題不編造。</div>
+<div class="step">🔗 Step 4 · 內鏈（排程時就自動設好）</div>
+<div><b class="hi">不用特別記得跑</b>——content-ops 會在「<b class="hi">排程當下</b>」就把每篇連到同叢集**已上線**的相關文（outbound），等它<b class="hi">自己上線時</b>再補上反向連結（inbound）。只連已上線頁（不 404）、冪等可重跑、錨點貼題不編造。</div>
+<div class="muted">想手動補某叢集就說：<i>「幫這個叢集跑一輪內鏈」</i>。原理：排程文用 <code>--outbound-src</code> 當來源只連已上線目標；該文上線後再跑一次 <code>--mesh</code> 補 inbound。</div>
 </div>
 
 <div class="card">
