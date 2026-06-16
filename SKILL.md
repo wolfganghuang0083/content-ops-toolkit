@@ -15,6 +15,7 @@ description: 內容運營「總指揮中心」——把 content-strategy-starter
   `project / site_url / cms_base / market / content_map_sheet_id(可空) / automation("auto-publish"|"review") / brief / facts_path`
 - **機密走環境變數**（精靈只給 .env 範本，本機填、不外送）：`WP_USER`、`WP_APP_PW`、（用 Google Sheet 才要）`GOOGLE_TOKEN`。
 - 第一次：`cp content-pipeline/templates/FACTS.template.md` 成 `FACTS.md` 填好（防編造命脈）。
+- **內容地圖兩種存法**：①Markdown 檔（最簡單、免 Google 授權，策略/地圖/寫稿/發佈全可跑，只有「自動排程」那步先手動）②Google 試算表（要做一次授權：`scripts/authorize_sheets.py` 把 credentials.json 換成 token.json；精靈 setup.html 有逐步白話教學）。新手預設走 Markdown。
 
 ## 一條龍流程（讀設定後自動執行）
 讀 `<project>.json`，依序：
