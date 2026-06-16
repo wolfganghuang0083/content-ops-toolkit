@@ -25,14 +25,16 @@ table{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}td{border:
 </style></head><body>
 
 <h1>🧰 內容運營工具鏈 — 手把手 Fork + 使用</h1>
-<div class="sub">四個 Claude Code skill 串成一條 SEO 內容生產線：規劃 → 撰稿 → 排程 → 內鏈。本頁帶你把它們 fork 成自己的、裝好、設定、跑起來。</div>
+<div class="sub">五個 Claude Code skill 串成一條 SEO 內容生產線：策略起點 → 規劃 → 撰稿 → 排程 → 內鏈。只給基本公司/產品/服務資訊就能全自動開展。本頁帶你把它們 fork 成自己的、裝好、設定、跑起來。</div>
 
 <div class="chain">
-<span class="node">🗺️ content-map-builder<br><span class="muted">寫什麼</span></span><span class="arr">→</span>
+<span class="node">🧬 content-strategy-starter<br><span class="muted">基本資訊→題庫</span></span><span class="arr">→</span>
+<span class="node">🗺️ content-map-builder<br><span class="muted">排成地圖</span></span><span class="arr">→</span>
 <span class="node">✍️ content-pipeline<br><span class="muted">寫成文章上站</span></span><span class="arr">→</span>
 <span class="node">📅 content-schedule<br><span class="muted">何時上線</span></span><span class="arr">→</span>
 <span class="node">🔗 internal-linking<br><span class="muted">織成主題網</span></span>
 </div>
+<div class="muted" style="margin:-6px 0 14px">🧬 <b class="hi">content-strategy-starter</b> 是 Step 0：全新網站、零關鍵字、零 GSC 數據也能冷啟動 —— 只給基本公司/產品/服務，就生出 persona、場景、標題與種子地圖。</div>
 
 <div class="card">
 <h2>① 先準備這些</h2>
@@ -46,9 +48,10 @@ table{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}td{border:
 </div>
 
 <div class="card">
-<h2>② Fork 這四個 repo（變成你自己的）</h2>
-<div class="muted">點按鈕 → 在 GitHub 頁面按右上「Create fork」即可。四個都 fork。</div>
+<h2>② Fork 這五個 repo（變成你自己的）</h2>
+<div class="muted">點按鈕 → 在 GitHub 頁面按右上「Create fork」即可。五個都 fork。</div>
 <div style="margin-top:8px">
+<a class="btn gh" href="https://github.com/wolfganghuang0083/content-strategy-starter/fork" target="_blank">⑂ Fork content-strategy-starter</a>
 <a class="btn gh" href="https://github.com/wolfganghuang0083/content-map-builder/fork" target="_blank">⑂ Fork content-map-builder</a>
 <a class="btn gh" href="https://github.com/wolfganghuang0083/content-pipeline/fork" target="_blank">⑂ Fork content-pipeline</a>
 <a class="btn gh" href="https://github.com/wolfganghuang0083/content-schedule/fork" target="_blank">⑂ Fork content-schedule</a>
@@ -86,8 +89,13 @@ export WP_APP_PW='xxxx xxxx xxxx xxxx xxxx xxxx'</div>
 <div class="card">
 <h2>⑤ 跑起來（完整流程）</h2>
 
-<div class="step">🗺️ Step 1 · 規劃地圖</div>
-<div>在 Claude Code 直接說：<i>「幫我為 &lt;你的網站&gt; 建內容地圖」</i>。要用真實數據排序，先把 GSC（Search Console → 成效 → 匯出）CSV 丟給它：</div>
+<div class="step">🧬 Step 0 · 從基本資訊生題庫（新站必跑）</div>
+<div>全新網站、還沒關鍵字/數據？在 Claude Code 說：<i>「用 content-strategy-starter 幫 &lt;這個生意&gt; 規劃內容題目」</i>，或貼一段基本資訊（誰、賣什麼、特色、轉換目標）。它會自動產出 <b class="hi">5 種 persona × 場景的 25 篇題庫 + 種子內容地圖</b>。</div>
+<div class="cmd" id="cmd-brief"><button onclick="cp('cmd-brief',this)">複製範例 brief</button>毛日子，做狗狗訂閱制鮮食。台灣製、人食等級無添加、依體重年齡客製份量、每月宅配、可隨時暫停換口味。客群是重視毛孩健康的飼主。特色：人食等級食材／客製份量／訂閱免囤貨／獸醫營養師審訂／可暫停換口味。希望訪客訂閱。市場台灣繁中。</div>
+<div class="muted">產出的「🌱 種子內容地圖」整段，貼進下一步 content-map-builder 即可。<a href="https://github.com/wolfganghuang0083/content-strategy-starter/blob/main/examples/example-strategy.md" target="_blank" style="color:#79c0ff">看範例產出 →</a></div>
+
+<div class="step">🗺️ Step 1 · 排成內容地圖</div>
+<div>說：<i>「把種子地圖排成內容地圖」</i>，或為既有站：<i>「幫我為 &lt;你的網站&gt; 建內容地圖」</i>。要用真實數據排序，先把 GSC（Search Console → 成效 → 匯出）CSV 丟給它：</div>
 <div class="cmd" id="cmd-prio"><button onclick="cp('cmd-prio',this)">複製</button>python3 ~/.claude/skills/content-map-builder/scripts/prioritize.py gsc-export.csv --relevant "你的,賺錢,關鍵字" --top 30</div>
 
 <div class="step">✍️ Step 2 · 寫一篇並上站</div>
@@ -111,7 +119,7 @@ export WP_APP_PW='xxxx xxxx xxxx xxxx xxxx xxxx'</div>
 <div class="muted" style="text-align:center;margin-top:18px">內容運營工具鏈 · MIT 授權 · 可自由 fork 改用於你的客戶</div>
 
 <script>
-const REPOS=['content-map-builder','content-pipeline','content-schedule','internal-linking'];
+const REPOS=['content-strategy-starter','content-map-builder','content-pipeline','content-schedule','internal-linking'];
 function upd(){
   let u=document.getElementById('uname').value.trim()||'你的GitHub帳號';
   let lines='for s in '+REPOS.join(' ')+'; do\n  git clone https://github.com/'+u+'/$s.git ~/.claude/skills/$s\ndone';
